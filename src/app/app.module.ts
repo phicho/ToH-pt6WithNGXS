@@ -23,9 +23,10 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 @NgModule({
   imports: [
     NgxsModule.forRoot([]),
-    NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+
     BrowserModule,
     FormsModule,
     AppRoutingModule,
