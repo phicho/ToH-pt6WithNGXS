@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
+import { Select, Store } from '@ngxs/store';
+import { GetHeros } from '../store/actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-heroes',
@@ -10,16 +13,14 @@ import { HeroService } from '../hero.service';
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
+  @Select(state => state.heroes.list) heroes$: Observable<Hero[]>;
 
-  constructor(private heroService: HeroService) { }
-
-  ngOnInit() {
-    this.getHeroes();
+  constructor(private heroService: HeroService, private store: Store) {
   }
 
-  getHeroes(): void {
-    this.heroService.getHeroes()
-    .subscribe(heroes => this.heroes = heroes);
+  ngOnInit() {
+    this.store.dispatch(new GetHeros());
+    this.heroes$.subscribe(heroList => this.heroes = heroList);
   }
 
   add(name: string): void {
