@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { GetHeros } from '../store/actions';
 
 @Component({
