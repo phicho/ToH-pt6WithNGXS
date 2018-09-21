@@ -1,7 +1,7 @@
 import { State, StateContext, Action } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { GetHeros, GetHero, UpdateHero } from './actions';
+import { GetHeros, GetHero, UpdateHero, AddHero, DeleteHero } from './actions';
 import { HeroService } from '../hero.service';
 import { Heroes } from './interfaces';
 
@@ -49,5 +49,39 @@ export class HeroesState {
                     selected: action.hero
                 });
             }));
+    }
+
+    @Action(AddHero)
+    addHero(ctx: StateContext<Heroes>, action: AddHero) {
+        return this.heroService.addHero(action.hero)
+            .subscribe((h) => {
+                const state = ctx.getState();
+
+                const current = {
+                    list: [...state.list, h]
+                };
+
+                ctx.setState({
+                    ...state,
+                    ...current
+                });
+            });
+    }
+
+    @Action(DeleteHero)
+    DeleteHero(ctx: StateContext<Heroes>, action: DeleteHero) {
+        return this.heroService.deleteHero(action.hero)
+            .subscribe(() => {
+                const state = ctx.getState();
+
+                const current = {
+                    list: state.list.filter(hero => hero.id !== action.hero.id)
+                };
+
+                ctx.setState({
+                    ...state,
+                    ...current
+                });
+            });
     }
 }
